@@ -5,10 +5,13 @@ function Reportes(){
     return(
         <div className="noc">
         <Container>
+            <h1>Reportes</h1>
+            <br/>
+            <br/>
         <UncontrolledAccordion defaultOpen="1">
   <AccordionItem>
     <AccordionHeader targetId="1">
-      Accordion Item 1
+      Reporte 1
     </AccordionHeader>
     <AccordionBody accordionId="1">
       <strong>
@@ -23,7 +26,7 @@ function Reportes(){
   </AccordionItem>
   <AccordionItem>
     <AccordionHeader targetId="2">
-      Accordion Item 2
+      Reporte 2
     </AccordionHeader>
     <AccordionBody accordionId="2">
       <strong>
@@ -38,7 +41,7 @@ function Reportes(){
   </AccordionItem>
   <AccordionItem>
     <AccordionHeader targetId="3">
-      Accordion Item 3
+      Reporte 3
     </AccordionHeader>
     <AccordionBody accordionId="3">
       <strong>
