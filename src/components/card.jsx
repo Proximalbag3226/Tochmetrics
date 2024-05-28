@@ -2,22 +2,18 @@ import React from 'react';
 import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import img1 from'../Img/american_futbol.jpg'
 
-const Card1 = ({ data }) => {
+function Card1({ data, click }) {
   return (
-    <>
-      {data.map((item, index) => (
-        <Card key={index} style={{ width: '18rem', margin: '10px' }}>
-          <img alt="Sample" src= {img1}/>
-          <CardBody>
-            <CardTitle tag="h5">Partido {item.partido}</CardTitle>
-            <CardText>Lugar: {item.lugar}</CardText>
-            <CardText>Fecha: {item.fecha}</CardText>
-            <CardText>Hora: {item.hora}</CardText>
-            <Button color='primary' href="/" tag="a">Ver más</Button>
-          </CardBody>
-        </Card>
-      ))}
-    </>
+    <Card style={{ width: '18rem' }}>
+      <img alt="Sample" src={img1} />
+      <CardBody>
+        <CardTitle tag="h5">{`Partido ${data.partido}`}</CardTitle>
+        <CardText>{`Lugar: ${data.lugar}`}</CardText>
+        <CardText>{`Fecha: ${data.fecha}`}</CardText>
+        <CardText>{`Hora: ${data.hora}`}</CardText>
+        <Button color='primary' onClick={click}>Ver más</Button>
+      </CardBody>
+    </Card>
   );
 };
 

@@ -1,5 +1,20 @@
 import React from 'react';
 import { Modal, ModalBody, ModalHeader, FormGroup, ModalFooter, Button } from 'reactstrap';
+import Graphic from './graphic';
+
+export const ModalshowComponent = ({ isOpen, title, graphData, onClose }) => {
+  return (
+    <Modal isOpen={isOpen} toggle={onClose}>
+      <ModalHeader toggle={onClose}>{title}</ModalHeader>
+      <ModalBody>
+        <Graphic data={graphData} />
+      </ModalBody>
+      <ModalFooter>
+        <Button color="secondary" onClick={onClose}>Cerrar</Button>
+      </ModalFooter>
+    </Modal>
+  );
+};
 
 const ModalForm = ({ isOpen, title, fields, formData, onChange, onSave, onClose }) => {
   return (

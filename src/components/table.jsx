@@ -5,25 +5,25 @@ import DataTable from './date_table';
 import ModalForm from './modal_form';
 
 const initialData = [
-  { id: 1, personaje: "Naruto", anime: "Naruto" },
-  { id: 2, personaje: "Goku", anime: "Dragon Ball" },
-  { id: 3, personaje: "Kenshin Hiruma", anime: "Ruroni Kenshin" },
-  { id: 4, personaje: "Monkey D. Luffy", anime: "One Piece" },
-  { id: 5, personaje: "Edward Elric", anime: "Fullmetal Alchemist: Brotherhood" },
-  { id: 6, personaje: "Seto Kaiba", anime: "Yu-Gi-oh!" },
+  { id: 1, nombre: "Naruto", tipo: "Arbitro" },
+  { id: 2, nombre: "Goku", tipo: "Jugador" },
+  { id: 3, nombre: "Kenshin Hiruma", tipo: "Organizador" },
+  { id: 4, nombre: "Monkey D. Luffy", tipo: "Administrador" },
+  { id: 5, nombre: "Edward Elric", tipo: "Arbitro" },
+  { id: 6, nombre: "Seto Kaiba", tipo: "Entrenador" },
 ];
 
 const fields = [
   { name: 'id', type: 'text', readOnly: true },
-  { name: 'personaje', type: 'text' },
-  { name: 'anime', type: 'text' },
+  { name: 'nombre', type: 'text' },
+  { name: 'tipo', type: 'text' },
 ];
 
 const Tables = () => {
   const [data, setData] = useState(initialData);
   const [modalActualizar, setModalActualizar] = useState(false);
   const [modalInsertar, setModalInsertar] = useState(false);
-  const [form, setForm] = useState({ id: "", personaje: "", anime: "" });
+  const [form, setForm] = useState({ id: "", nombre: "", tipo: "" });
 
   const mostrarModalActualizar = (dato) => {
     setForm(dato);
@@ -81,7 +81,7 @@ const Tables = () => {
 
       <ModalForm
         isOpen={modalInsertar}
-        title="Insertar Personaje"
+        title="Insertar nombre"
         fields={fields}
         formData={{ ...form, id: data.length + 1 }}
         onChange={handleChange}
