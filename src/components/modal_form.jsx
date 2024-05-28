@@ -10,7 +10,7 @@ const ModalForm = ({ isOpen, title, fields, formData, onChange, onSave, onClose 
 
       <ModalBody>
         {fields.map((field) => (
-          field.name ? (
+          field.name && field.type ? (
             <FormGroup key={field.name}>
               <label>
                 {field.name.charAt(0).toUpperCase() + field.name.slice(1)}:
@@ -19,7 +19,7 @@ const ModalForm = ({ isOpen, title, fields, formData, onChange, onSave, onClose 
                 className="form-control"
                 name={field.name}
                 type={field.type}
-                readOnly={field.readOnly}
+                readOnly={field.readOnly || false}
                 onChange={onChange}
                 value={formData[field.name] || ''}
               />
@@ -32,7 +32,7 @@ const ModalForm = ({ isOpen, title, fields, formData, onChange, onSave, onClose 
         <Button color="primary" onClick={onSave}>
           Guardar
         </Button>
-        <Button className="btn btn-danger" onClick={onClose}>
+        <Button color="danger" onClick={onClose}>
           Cancelar
         </Button>
       </ModalFooter>
