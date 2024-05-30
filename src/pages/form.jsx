@@ -46,7 +46,7 @@ const RegisterEmployee = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value.trim()
+      [name]: value
     });
   };
 
