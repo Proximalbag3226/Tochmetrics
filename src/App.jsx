@@ -7,6 +7,8 @@ import Partidos from './pages/gestion_partidos';
 import Tables from './components/table';
 import Estadisticas from './pages/estadisticas';
 import Torneos from './pages/torneos';
+import Register from './pages/register';
+import Login from './pages/login';
 function App() {
   return (
           <>
@@ -19,6 +21,8 @@ function App() {
             <Route path='/usuarios' element={<Tables/>}/>
             <Route path='/estadisticas' element={<Estadisticas/>}/>
             <Route path='/torneos' element = {<Torneos/>}/>
+            <Route path='/register' element = {<Register/>}/>
+            <Route path='/login' element = {<Login/>}/>
           </Routes>
           </BrowserRouter>
           </>

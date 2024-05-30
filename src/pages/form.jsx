@@ -8,12 +8,20 @@ const validateForm = (formData) => {
     errors.nombre = 'El nombre debe tener entre 5 y 25 caracteres.';
   }
 
-  if (formData.edad < 18 || formData.edad > 70) {
-    errors.edad = 'La edad debe ser entre 18 y 70 años.';
+  if (formData.usuario.length < 5 || formData.usuario.length > 25) {
+    errors.usuario = 'El usuario no debe de tener mas de 25 o menos de 5 caracteres.';
   }
 
-  if (formData.salario < 7468 || formData.salario > 40000) {
-    errors.salario = 'El salario debe estar entre 7468 y 40000.';
+  if(formData.contraseña.length < 8 || formData.contraseña.length > 15) {
+    errors.contraseña = 'La contraseña debe tener mas de 8 caracteres y no mas de 15';
+  }
+
+  if (formData.apellidos.length < 5 || formData.apellidos.length > 35){
+    errors.apellidos = 'Los apellidos deben tener entre 5 y 35 caracteres';
+  }
+
+  if (formData.correo.length < 10 || formData.correo.length > 30) {
+    errors.salario = 'El correo solo puede tener entre 10 y 30 caracteres';
   }
 
   return errors;
@@ -21,10 +29,11 @@ const validateForm = (formData) => {
 
 const RegisterEmployee = () => {
   const [formData, setFormData] = useState({
+    usuario: '',
+    contraseña: '',
     nombre: '',
-    edad: '',
-    puesto: '',
-    salario: ''
+    apellidos: '',
+    correo: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -79,6 +88,36 @@ const RegisterEmployee = () => {
     <form onSubmit={handleSubmit}>
       <div>
         <label>
+          Usuario:
+          <input
+            type="text"
+            name="usuario"
+            value={formData.usuario}
+            onChange={handleChange}
+            min={5}
+            max={25}
+            required
+          />
+          {errors.usuario && <p>{errors.usuario}</p>}
+        </label>
+      </div>
+      <div>
+        <label>
+          Contraseña:
+          <input
+            type="password"
+            name="contraseña"
+            value={formData.contraseña}
+            onChange={handleChange}
+            min={8}
+            max={15}
+            required
+          />
+          {errors.contraseña && <p>{errors.contraseña}</p>}
+        </label>
+      </div>
+      <div>
+        <label>
           Nombre:
           <input
             type="text"
@@ -94,47 +133,32 @@ const RegisterEmployee = () => {
       </div>
       <div>
         <label>
-          Edad:
-          <input
-            type="number"
-            name="edad"
-            value={formData.edad}
-            onChange={handleChange}
-            min={18}
-            max={70}
-            required
-          />
-          {errors.edad && <p>{errors.edad}</p>}
-        </label>
-      </div>
-      <div>
-        <label>
-          Puesto:
+          Apellidos:
           <input
             type="text"
-            name="puesto"
-            value={formData.puesto}
+            name="apellidos"
+            value={formData.apellidos}
             onChange={handleChange}
+            min={5}
+            max={35}
             required
           />
+          {errors.apellidos && <p>{errors.apellidos}</p>}
         </label>
       </div>
       <div>
         <label>
-          Salario:
+          Correo:
           <input
-            type="number"
-            name="salario"
-            value={formData.salario}
+            type="email"
+            name="correo"
+            value={formData.correo}
             onChange={handleChange}
-            min={7468}
-            max={40000}
             required
           />
-          {errors.salario && <p>{errors.salario}</p>}
         </label>
       </div>
-      <button type="submit" disabled={isSubmitting}>Registrar Empleado</button>
+      <button type="submit" disabled={isSubmitting}>Registrar Usuario</button>
       {message && <p>{message}</p>}
       {nombreRespuesta && (
         <div>

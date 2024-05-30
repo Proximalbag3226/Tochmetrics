@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
-import ola from '../Img/campo_americano5.jpg'
+import ola from '../Img/campo_americano2.jpg'
 function Card1({ data, click }) {
   var min = 1;
   var max = 4;
