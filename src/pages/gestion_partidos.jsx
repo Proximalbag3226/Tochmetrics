@@ -1,36 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Button } from 'reactstrap';
 import DataTable from '../components/date_table';
 import ModalForm from '../components/modal_form';
-
-const initialData = [
-  { id: 1, personaje: "Naruto", anime: "Naruto" },
-  { id: 2, personaje: "Goku", anime: "Dragon Ball" },
-  { id: 3, personaje: "Kenshin Hiruma", anime: "Ruroni Kenshin" },
-  { id: 4, personaje: "Monkey D. Luffy", anime: "One Piece" },
-  { id: 5, personaje: "Edward Elric", anime: "Fullmetal Alchemist: Brotherhood" },
-  { id: 6, personaje: "Seto Kaiba", anime: "Yu-Gi-oh!" },
-];
+import validateForm from '../functions/validator';
 
 const fields = [
-    {name: "Campo", type: "text"},
-    {name: "Deportivo", type: "text"},
-    {name: "Liga", type: "text"},
-    {name: "Torneo", type: "text"},
-    {name: "Categoria", type: "text"},
-    {name: "Equipo local", type: "text"},
-    {name: "Equipo visitante", type: "text"},
-    {name: "Fecha", type: "date"},
-    {name: "Arbitro", type: "text"},
-    {name: "Hora", type: "text"}
+  { name: 'id', type: 'text', readOnly: true },
+  { name: 'campo', type: 'text', minLength: 5, maxLength: 25, required: true },
+  { name: 'deportivo', type: 'text', minLength: 5, maxLength: 25, required: true },
+  { name: 'liga', type: 'text', minLength: 5, maxLength: 25, required: true },
+  { name: 'torneo', type: 'text', minLength: 5, maxLength: 25, required: true },
+  { name: 'categoria', type: 'text', minLength: 5, maxLength: 25, required: true },
+  { name: 'eq', type: 'text', minLength: 5, maxLength: 25, required: true },
+  { name: 'ev', type: 'text', minLength: 5, maxLength: 25, required: true },
+  { name: 'fecha', type: 'date', required: true },
+  { name: 'arbitro', type: 'text', minLength: 5, maxLength: 25, required: true },
+  { name: 'hora', type: 'time', required: true }
 ];
 
-const Partidos = () => {
-  const [data, setData] = useState(initialData);
+const Tables = () => {
+  const [data, setData] = useState([]);
+  const [form, setForm] = useState({ id: "", campo: "", deportivo: "", liga: "", torneo: "", categoria: "", eq: "", ev: "", fecha: "", arbitro: "", hora: "" });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalActualizar, setModalActualizar] = useState(false);
   const [modalInsertar, setModalInsertar] = useState(false);
-  const [form, setForm] = useState({ id: "", personaje: "", anime: "" });
+
+  useEffect(() => {
+    // Fetch initial data from the API
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/partidos/obtener_partido');
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    const validationErrors = validateForm(form, fields);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      if (modalActualizar) {
+        await axios.put(`http://127.0.0.1:8000/partidos/editar_partido/{id}?partido_id=${form.id}`, form, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        setData((prevState) => prevState.map((item) => (item.id === form.id ? form : item)));
+      } else {
+        const response = await axios.post('http://127.0.0.1:8000/partidos/agregar_partido', form, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        setData([...data, response.data]);
+      }
+      setModalActualizar(false);
+      setModalInsertar(false);
+      setForm({ id: "", campo: "", deportivo: "", liga: "", torneo: "", categoria: "", eq: "", ev: "", fecha: "", arbitro: "", hora: "" });
+    } catch (error) {
+      console.error('Error saving data:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const mostrarModalActualizar = (dato) => {
     setForm(dato);
@@ -43,30 +93,15 @@ const Partidos = () => {
 
   const cerrarModalInsertar = () => setModalInsertar(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const editar = () => {
-    const updatedData = data.map((registro) =>
-      registro.id === form.id ? form : registro
-    );
-    setData(updatedData);
-    setModalActualizar(false);
-  };
-
-  const eliminar = (dato) => {
+  const eliminar = async (dato) => {
     if (window.confirm(`Estás seguro que deseas eliminar el elemento ${dato.id}`)) {
-      const filteredData = data.filter((registro) => registro.id !== dato.id);
-      setData(filteredData);
+      try {
+        await axios.delete(`http://127.0.0.1:8000/partidos/eliminar_partido/{id}?id_partido=${dato.id}`);
+        setData(data.filter((registro) => registro.id !== dato.id));
+      } catch (error) {
+        console.error('Error deleting data:', error);
+      }
     }
-  };
-
-  const insertar = () => {
-    const valorNuevo = { ...form, id: data.length + 1 };
-    setData([...data, valorNuevo]);
-    setModalInsertar(false);
   };
 
   return (
@@ -82,21 +117,21 @@ const Partidos = () => {
         fields={fields}
         formData={form}
         onChange={handleChange}
-        onSave={editar}
+        onSave={handleSave}
         onClose={cerrarModalActualizar}
       />
 
       <ModalForm
         isOpen={modalInsertar}
-        title="Nuevo partido"
+        title="Insertar nombre"
         fields={fields}
-        formData={{...form, id: data.length + 1}}
+        formData={{ ...form, id: data.length + 1 }}
         onChange={handleChange}
-        onSave={insertar}
+        onSave={handleSave}
         onClose={cerrarModalInsertar}
       />
     </Container>
   );
 };
 
-export default Partidos;
+export default Tables;
