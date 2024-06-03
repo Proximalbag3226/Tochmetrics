@@ -24,24 +24,21 @@ const ModalForm = ({ isOpen, title, fields, formData, onChange, onSave, onClose 
       </ModalHeader>
 
       <ModalBody>
-        {fields.map((field) => {
-          if (!field.name || !field.type) return null;
-
-          return (
+        {fields.map((field) => (
+          field.name && field.type ? (
             <FormGroup key={field.name}>
-              <Label for={field.name}>
+              <Label>
                 {field.name.charAt(0).toUpperCase() + field.name.slice(1)}:
               </Label>
               {field.type === 'select' ? (
                 <Input
-                  id={field.name}
-                  name={field.name}
                   type="select"
+                  name={field.name}
                   value={formData[field.name] || ''}
                   onChange={onChange}
-                  readOnly={field.readOnly || false}
                 >
-                  {field.options && field.options.map(option => (
+                  <option value="">Seleccione una opción</option>
+                  {field.options.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
@@ -49,18 +46,17 @@ const ModalForm = ({ isOpen, title, fields, formData, onChange, onSave, onClose 
                 </Input>
               ) : (
                 <Input
-                  className="form-control"
-                  id={field.name}
-                  name={field.name}
                   type={field.type}
-                  readOnly={field.readOnly || false}
-                  onChange={onChange}
+                  name={field.name}
                   value={formData[field.name] || ''}
+                  onChange={onChange}
+                  readOnly={field.readOnly || false}
+                  required={field.required || false}
                 />
               )}
             </FormGroup>
-          );
-        })}
+          ) : null
+        ))}
       </ModalBody>
 
       <ModalFooter>
