@@ -18,8 +18,8 @@ const fields = [
     type: 'select',
     label: 'tipo de usuario',
     options: [
-      { value: '1', label: 'head referee' },
-      { value: '2', label: 'regular referee' },
+      { value: 'head_referee', label: 'head referee' },
+      { value: 'regular_referee', label: 'regular referee' },
     ],
   },
 ];
@@ -62,14 +62,14 @@ const handleSave = async () => {
 
   try {
     if (modalActualizar) {
-      await axios.put(`http://127.0.0.1:8000/partidos/editar_partido/{id}?partido_id=${form.id}`, form, {
+      await axios.put(`http://127.0.0.1:8000/usuarios/modificar_usuario/${form.id}`, form, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json', 
         },
       });
       setData((prevState) => prevState.map((item) => (item.id === form.id ? form : item)));
     } else {
-      const response = await axios.post('http://127.0.0.1:8000/partidos/agregar_partido', form, {
+      const response = await axios.post('http://127.0.0.1:8000/usuarios/agregar_usuario', form, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -101,7 +101,7 @@ const handleSave = async () => {
   const eliminar = async(dato) => {
     if (window.confirm(`Estás seguro que deseas eliminar el elemento ${dato.id}`)) {
       try{
-        await axios.delete(`http://127.0.0.1:8000/usuarios/eliminar_usuario/{id}?id_usuario=${dato.id}`);
+        await axios.delete(`http://127.0.0.1:8000/usuarios/borrar_usuario/{id}?id_usuario=${dato.id}`);
         setData(data.filter((registro) => registro.id !== dato.id));
       } catch(error){
       console.error('Error deleting data: ', error)

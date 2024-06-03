@@ -29,7 +29,6 @@ const Tables = () => {
   const [modalInsertar, setModalInsertar] = useState(false);
 
   useEffect(() => {
-    // Fetch initial data from the API
     const fetchData = async () => {
       try {
         const response = await axios.get('http://127.0.0.1:8000/partidos/obtener_partido');
@@ -45,20 +44,19 @@ const Tables = () => {
     const { name, value } = e.target;
     setForm((prevState) => ({ ...prevState, [name]: value }));
   };
-
   const handleSave = async () => {
     const validationErrors = validateForm(form, fields);
     setErrors(validationErrors);
-
+  
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
-
+  
     setIsSubmitting(true);
-
+  
     try {
       if (modalActualizar) {
-        await axios.put(`http://127.0.0.1:8000/partidos/editar_partido/{id}?partido_id=${form.id}`, form, {
+        await axios.put(`http://127.0.0.1:8000/partidos/editar_partido/${form.id}`, form, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -81,7 +79,6 @@ const Tables = () => {
       setIsSubmitting(false);
     }
   };
-
   const mostrarModalActualizar = (dato) => {
     setForm(dato);
     setModalActualizar(true);
