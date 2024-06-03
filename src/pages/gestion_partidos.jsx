@@ -22,7 +22,7 @@ const fields = [
 
 const Tables = () => {
   const [data, setData] = useState([]);
-  const [form, setForm] = useState({ id: "", campo: "", deportivo: "", liga: "", torneo: "", categoria: "", eq: "", ev: "", fecha: "", arbitro: "", hora: "" });
+  const [form, setForm] = useState({campo: "", deportivo: "", liga: "", torneo: "", categoria: "", eq: "", ev: "", fecha: "", arbitro: "", hora: "" });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalActualizar, setModalActualizar] = useState(false);
@@ -74,7 +74,7 @@ const Tables = () => {
       }
       setModalActualizar(false);
       setModalInsertar(false);
-      setForm({ id: "", campo: "", deportivo: "", liga: "", torneo: "", categoria: "", eq: "", ev: "", fecha: "", arbitro: "", hora: "" });
+      setForm({campo: "", deportivo: "", liga: "", torneo: "", categoria: "", eq: "", ev: "", fecha: "", arbitro: "", hora: "" });
     } catch (error) {
       console.error('Error saving data:', error);
     } finally {
