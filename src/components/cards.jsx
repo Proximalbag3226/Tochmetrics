@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Button } from 'reactstrap';
+import axios from 'axios';
 import Card1 from './card';
 import ModalForm from './modal_form';
 import { ModalshowComponent } from './modal_form';
 
-const initialData = [
-  { partido: 1, lugar: 'CDMX', fecha: 'Hoy', hora: '10:00', anot: 30, ob: 5, sack: 10, inter: 25, pex: 13, panot: 15 }
-];
-
 const fields = [
-  { name: "partido", type: "text" },
+  { name: "num_partido", type: "text", readOnly: true },
   { name: "lugar", type: "text" },
   { name: "fecha", type: "date" },
-  { name: "hora", type: "text" },
+  { name: "hora", type: "time" },
   { name: "anot", type: "text" },
   { name: "ob", type: "text" },
   { name: "sack", type: "text" },
@@ -41,11 +38,23 @@ const graphicData = (item) => ({
 });
 
 function Cards() {
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalVerMas, setModalVerMas] = useState(false);
-  const [form, setForm] = useState({ partido: "", lugar: "", fecha: "", hora: "", anot: "", ob: "", sack: "", inter: "", pex: "", panot: "" });
+  const [form, setForm] = useState({ lugar: "", fecha: "", hora: "", anot: "", ob: "", sack: "", inter: "", pex: "", panot: "" });
   const [currentData, setCurrentData] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/estadisticas/obtener_estadisticas'); 
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching data: ', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const mostrarModalInsertar = () => setModalInsertar(true);
 
@@ -63,11 +72,16 @@ function Cards() {
     setForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const insertar = () => {
-    const nuevoPartido = { ...form, partido: data.length + 1 };
-    setData([...data, nuevoPartido]);
-    setModalInsertar(false);
-    setForm({ partido: "", lugar: "", fecha: "", hora: "", anot: "", ob: "", sack: "", inter: "", pex: "", panot: "" }); // Reset form after insertion
+  const insertar = async () => {
+    const nuevaEstadistica = { ...form, num_partido: data.length + 1 };
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/estadisticas/agregar_estadistica', nuevaEstadistica); 
+      setData([...data, response.data]);
+      setModalInsertar(false);
+      setForm({ lugar: "", fecha: "", hora: "", anot: "", ob: "", sack: "", inter: "", pex: "", panot: "" });
+    } catch (error) {
+      console.error('Error inserting data: ', error);
+    }
   };
 
   return (
@@ -86,7 +100,7 @@ function Cards() {
         isOpen={modalInsertar}
         title="Nuevo partido"
         fields={fields}
-        formData={{ ...form, partido: data.length + 1 }}
+        formData={{ ...form, num_partido: data.length + 1 }}
         onChange={handleChange}
         onSave={insertar}
         onClose={cerrarModalInsertar}
