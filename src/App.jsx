@@ -23,6 +23,7 @@ function App() {
             <Route path='/torneos' element = {<Torneos/>}/>
             <Route path='/register' element = {<Register/>}/>
             <Route path='/login' element = {<Login/>}/>
+            <Route path='/register' element = {<Register/>}/>
           </Routes>
           </BrowserRouter>
           </>

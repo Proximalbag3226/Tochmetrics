@@ -1,9 +1,13 @@
 import React from 'react'
+import { Container } from 'reactstrap'
+import RegisterEmployee from './form'
 
 export default function Register() {
   return (
     <div>
-      <h1>Hola soy el registro</h1>
+        <Container>
+            <RegisterEmployee/>
+        </Container>
     </div>
   )
 }

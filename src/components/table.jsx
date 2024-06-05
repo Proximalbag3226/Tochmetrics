@@ -5,6 +5,7 @@ import { Container, Button } from 'reactstrap';
 import DataTable from './date_table';
 import ModalForm from './modal_form';
 import validateForm from '../functions/validator';
+import * as BsIcons from "react-icons/bs";
 
 const fields = [
   { name: 'id', type: 'text', readOnly: true },
@@ -124,7 +125,7 @@ const Tables = () => {
   return (
     <Container>
       <br />
-      <Button color="success" onClick={mostrarModalInsertar}>Crear</Button>
+      <Button color="warning" onClick={mostrarModalActualizar}><BsIcons.BsPencilSquare/>Editar Usuario</Button>
       <br /><br />
       <DataTable data={data} fields={fields.map((field) => field.name)} onEdit={mostrarModalActualizar} onDelete={eliminar} />
 

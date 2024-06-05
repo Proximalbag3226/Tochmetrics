@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';  // Importa useHistory
+import { Form, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
 
 const validateForm = (formData) => {
   const errors = {};
@@ -21,7 +23,7 @@ const validateForm = (formData) => {
   }
 
   if (formData.correo.length < 10 || formData.correo.length > 30) {
-    errors.salario = 'El correo solo puede tener entre 10 y 30 caracteres';
+    errors.correo = 'El correo solo puede tener entre 10 y 30 caracteres';
   }
 
   return errors;
@@ -33,14 +35,14 @@ const RegisterEmployee = () => {
     contraseña: '',
     nombre: '',
     apellidos: '',
-    correo: ''
+    correo: '',
+    tipo: ''
   });
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
-  const [nombreRespuesta, setNombreRespuesta] = useState(null);
-  const [responseData, setResponseData] = useState(null);
+  const navigate = useNavigate();  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,117 +64,139 @@ const RegisterEmployee = () => {
 
     setIsSubmitting(true);
     setMessage('');
-    setNombreRespuesta(null);
-    setResponseData(null);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/empleados/agregar_empleado', formData, {
+      const response = await axios.post('http://127.0.0.1:8000/usuarios/agregar_usuario', formData, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
       console.log(response.data);
-      const empleado = response.data[0]; // Acceder al primer elemento del array
-      setMessage('Empleado registrado con éxito');
-      setNombreRespuesta(empleado.nombre); // Guarda solo el nombre de la respuesta del servidor
-      setResponseData(empleado); // Guarda toda la respuesta del servidor
+      const usuario = response.data; // Asegúrate de que esta línea accede correctamente al objeto usuario
+      setMessage('Usuario registrado con éxito');
+      
+      // Guarda los datos del usuario en localStorage
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+      
+      // Redirige a la página de inicio
+      navigate('/');
     } catch (error) {
-      console.error('Error registrando empleado:', error);
-      setMessage('Error registrando empleado');
+      console.error('Error registrando usuario:', error);
+      setMessage('Error registrando usuario');
+      alert('Error registrando usuario');  // Muestra una alerta en caso de error
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>
-          Usuario:
-          <input
-            type="text"
-            name="usuario"
-            value={formData.usuario}
-            onChange={handleChange}
-            min={5}
-            max={25}
-            required
-          />
-          {errors.usuario && <p>{errors.usuario}</p>}
-        </label>
-      </div>
-      <div>
-        <label>
-          Contraseña:
-          <input
-            type="password"
-            name="contraseña"
-            value={formData.contraseña}
-            onChange={handleChange}
-            min={8}
-            max={15}
-            required
-          />
-          {errors.contraseña && <p>{errors.contraseña}</p>}
-        </label>
-      </div>
-      <div>
-        <label>
-          Nombre:
-          <input
-            type="text"
-            name="nombre"
-            value={formData.nombre}
-            onChange={handleChange}
-            minLength={5}
-            maxLength={25}
-            required
-          />
-          {errors.nombre && <p>{errors.nombre}</p>}
-        </label>
-      </div>
-      <div>
-        <label>
-          Apellidos:
-          <input
-            type="text"
-            name="apellidos"
-            value={formData.apellidos}
-            onChange={handleChange}
-            min={5}
-            max={35}
-            required
-          />
-          {errors.apellidos && <p>{errors.apellidos}</p>}
-        </label>
-      </div>
-      <div>
-        <label>
-          Correo:
-          <input
-            type="email"
-            name="correo"
-            value={formData.correo}
-            onChange={handleChange}
-            required
-          />
-        </label>
-      </div>
-      <button type="submit" disabled={isSubmitting}>Registrar Usuario</button>
+    <Form onSubmit={handleSubmit}>
+      <Row>
+        <Col md={6}>
+          <FormGroup>
+            <Label>Usuario:</Label>
+            <Input
+              type="text"
+              placeholder="Juan123"
+              name="usuario"
+              value={formData.usuario}
+              onChange={handleChange}
+              min={5}
+              max={25}
+              required
+            />
+            {errors.usuario && <p>{errors.usuario}</p>}
+          </FormGroup>
+        </Col>
+        <Col md={6}>
+          <FormGroup>
+            <Label>Contraseña:</Label>
+            <Input
+              type="password"
+              name="contraseña"
+              value={formData.contraseña}
+              onChange={handleChange}
+              min={8}
+              max={15}
+              required
+            />
+            {errors.contraseña && <p>{errors.contraseña}</p>}
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={6}>
+          <FormGroup>
+            <Label>Nombre:</Label>
+            <Input
+              type="text"
+              placeholder="Juan Jose"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              minLength={5}
+              maxLength={25}
+              required
+            />
+            {errors.nombre && <p>{errors.nombre}</p>}
+          </FormGroup>
+        </Col>
+        <Col md={6}>
+          <FormGroup>
+            <Label>Apellidos:</Label>
+            <Input
+              type="text"
+              placeholder="Sanchez Perez"
+              name="apellidos"
+              value={formData.apellidos}
+              onChange={handleChange}
+              min={5}
+              max={35}
+              required
+            />
+            {errors.apellidos && <p>{errors.apellidos}</p>}
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={6}>
+          <FormGroup>
+            <Label>Correo:</Label>
+            <Input
+              type="email"
+              placeholder="juan@gmail.com"
+              name="correo"
+              value={formData.correo}
+              onChange={handleChange}
+              required
+            />
+            {errors.correo && <p>{errors.correo}</p>}
+          </FormGroup>
+        </Col>
+      </Row>
+      <br />
+      <FormGroup>
+        <Label>Tipo de usuario:</Label>
+        <Input
+          name="tipo"
+          className="mb-3"
+          type="select"
+          value={formData.tipo}
+          onChange={handleChange}
+          required
+        >
+          <option key={'head_referee'} value={'head_referee'}>
+            Head Referee
+          </option>
+          <option key={'regular_referee'} value={'regular_referee'}>
+            Regular Referee
+          </option>
+        </Input>
+      </FormGroup>
+      <br />
+      <Button color="success" type="submit" disabled={isSubmitting}>Registrar Usuario</Button>
       {message && <p>{message}</p>}
-      {nombreRespuesta && (
-        <div>
-          <h3>Nombre recibido del servidor:</h3>
-          <p>{nombreRespuesta}</p>
-        </div>
-      )}
-      {responseData && (
-        <div>
-          <h3>Datos completos del servidor:</h3>
-          <pre>{JSON.stringify(responseData, null, 2)}</pre>
-        </div>
-      )}
-    </form>
+    </Form>
   );
 };
 
