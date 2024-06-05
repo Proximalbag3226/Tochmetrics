@@ -15,6 +15,10 @@ const LoginForm = () => {
                 contraseña: password
             });
             alert(response.data.message);
+            console.log(response.data);
+            const usuario = response.data;
+            localStorage.setItem('usuario', JSON.stringify(usuario));
+            navigate('/')
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 setError('Usuario o contraseña incorrectos.');

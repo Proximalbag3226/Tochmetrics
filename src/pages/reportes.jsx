@@ -1,26 +1,35 @@
-import React, { useState } from "react";
-import { Container, UncontrolledAccordion, AccordionItem, AccordionHeader, AccordionBody, Button} from "reactstrap";
+import React, { useState, useEffect } from "react";
+import { Container, UncontrolledAccordion, AccordionItem, AccordionHeader, AccordionBody, Button } from "reactstrap";
 import * as BsIcons from "react-icons/bs";
+import axios from "axios";
 import ModalForm from "../components/modal_form";
 
-const initialData = [
-  { partido: 1, lugar: 'CDMX', fecha: 'Hoy', equipos: "Ny vs Ravens", description: "Hola este es un reporte"}
-];
-
 const fields = [
-  { name: "partido", type: "text" },
+  { name: "num_partido", type: "text" },
   { name: "lugar", type: "text" },
   { name: "fecha", type: "date" },
-  {name: "equipos", type: "text" },
-  {name: "description", type: "text"}
+  { name: "equipos", type: "text" },
+  { name: "descripcion", type: "text" }
 ];
 
-function Reportes(){
-  const [data, setData] = useState(initialData);
+function Reportes() {
+  const [data, setData] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalVerMas, setModalVerMas] = useState(false);
-  const [form, setForm] = useState({ partido: "", lugar: "", fecha: "", hora: "", anot: "", ob: "", sack: "", inter: "", pex: "", panot: "" });
+  const [form, setForm] = useState({ num_partido: "", lugar: "", fecha: "", equipos: "", descripcion: "" });
   const [currentData, setCurrentData] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/reportes/obtener_reportes');
+        setData(response.data);
+      } catch (error) {
+        console.error('Error obteniendo datos:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const mostrarModalInsertar = () => setModalInsertar(true);
 
@@ -38,79 +47,61 @@ function Reportes(){
     setForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const insertar = () => {
-    const nuevoPartido = { ...form, partido: data.length + 1 };
-    setData([...data, nuevoPartido]);
-    setModalInsertar(false);
-    setForm({ partido: "", lugar: "", fecha: "", hora: "", anot: "", ob: "", sack: "", inter: "", pex: "", panot: "" }); // Reset form after insertion
+  const insertar = async () => {
+    const nuevonum_partido = { ...form, num_partido: data.length + 1 };
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/reportes/agregar_reporte', nuevonum_partido, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      setData([...data, response.data]);
+      setModalInsertar(false);
+      setForm({ num_partido: "", lugar: "", fecha: "", equipos: "", descripcion: "" }); // Reset form after insertion
+    } catch (error) {
+      console.error('Error insertando dato:', error);
+    }
   };
 
-    return(
-        <div className="noc">
-        <Container>
-            <h1>Reportes <Button color="success" onClick={mostrarModalInsertar}>
-            <BsIcons.BsPlusCircleFill/>
-          </Button></h1>
-            <br/>
-            <br/>
+  return (
+    <div className="noc">
+      <Container>
+        <h1>
+          Reportes{" "}
+          <Button color="success" onClick={mostrarModalInsertar}>
+            <BsIcons.BsPlusCircleFill />
+          </Button>
+        </h1>
+        <br />
+        <br />
         <UncontrolledAccordion defaultOpen="1">
-  <AccordionItem>
-    <AccordionHeader targetId="1">
-      Reporte 1
-    </AccordionHeader>
-    <AccordionBody accordionId="1">
-      <strong>
-        This is the first item's accordion body.
-      </strong>
-      You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the{' '}
-      <code>
-        .accordion-body
-      </code>
-      , though the transition does limit overflow.
-    </AccordionBody>
-  </AccordionItem>
-  <AccordionItem>
-    <AccordionHeader targetId="2">
-      Reporte 2
-    </AccordionHeader>
-    <AccordionBody accordionId="2">
-      <strong>
-        This is the second item's accordion body.
-      </strong>
-      You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the{' '}
-      <code>
-        .accordion-body
-      </code>
-      , though the transition does limit overflow.
-    </AccordionBody>
-  </AccordionItem>
-  <AccordionItem>
-    <AccordionHeader targetId="3">
-      Reporte 3
-    </AccordionHeader>
-    <AccordionBody accordionId="3">
-      <strong>
-        This is the third item's accordion body.
-      </strong>
-      You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the{' '}
-      <code>
-        .accordion-body
-      </code>
-      , though the transition does limit overflow.
-    </AccordionBody>
-  </AccordionItem>
-</UncontrolledAccordion>
-<ModalForm
-isOpen={modalInsertar}
-title="Nuevo reporte"
-fields={fields}
-formData={{...form, partido: data.length + 1}}
-onChange={handleChange}
-onSave={insertar}
-onClose={cerrarModalInsertar}/>
-        </Container>
-        </div>
-    );
+          {data.map((item, index) => (
+            <AccordionItem key={index}>
+              <AccordionHeader targetId={`${index + 1}`}>
+                {`Reporte ${index + 1}`}
+              </AccordionHeader>
+              <AccordionBody accordionId={`${index + 1}`}>
+                <strong>{item.equipos}</strong>
+                <p>{item.descripcion}</p>
+                <Button color="info" onClick={() => mostrarModalVerMas(item)}>
+                  Ver más
+                </Button>
+              </AccordionBody>
+            </AccordionItem>
+          ))}
+        </UncontrolledAccordion>
+        <ModalForm
+          isOpen={modalInsertar}
+          title="Nuevo reporte"
+          fields={fields}
+          formData={{ ...form, num_partido: data.length + 1 }}
+          onChange={handleChange}
+          onSave={insertar}
+          onClose={cerrarModalInsertar}
+        />
+      </Container>
+    </div>
+  );
 };
 
 export default Reportes;

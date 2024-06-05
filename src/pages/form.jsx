@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';  // Importa useHistory
+import { useNavigate } from 'react-router-dom'; 
 import { Form, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
 
 const validateForm = (formData) => {
@@ -72,18 +72,16 @@ const RegisterEmployee = () => {
         }
       });
       console.log(response.data);
-      const usuario = response.data; // Asegúrate de que esta línea accede correctamente al objeto usuario
+      const usuario = response.data; 
       setMessage('Usuario registrado con éxito');
       
-      // Guarda los datos del usuario en localStorage
       localStorage.setItem('usuario', JSON.stringify(usuario));
       
-      // Redirige a la página de inicio
       navigate('/');
     } catch (error) {
       console.error('Error registrando usuario:', error);
       setMessage('Error registrando usuario');
-      alert('Error registrando usuario');  // Muestra una alerta en caso de error
+      alert('Error registrando usuario');
     } finally {
       setIsSubmitting(false);
     }
