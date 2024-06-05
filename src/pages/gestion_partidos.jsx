@@ -21,6 +21,8 @@ const fields = [
 ];
 
 const Tables = () => {
+  const user = JSON.parse(localStorage.getItem('usuario'));
+  const isHeadReferee = user && user.tipo === 'head_referee';
   const [data, setData] = useState([]);
   const [form, setForm] = useState({campo: "", deportivo: "", liga: "", torneo: "", categoria: "", eq: "", ev: "", fecha: "", arbitro: "", hora: "" });
   const [errors, setErrors] = useState({});
@@ -104,7 +106,9 @@ const Tables = () => {
   return (
     <Container>
       <br />
+      {isHeadReferee && (
       <Button color="success" onClick={mostrarModalInsertar}>Crear</Button>
+    )}
       <br /><br />
       <DataTable data={data} fields={fields.map(field => field.name)} onEdit={mostrarModalActualizar} onDelete={eliminar} />
       

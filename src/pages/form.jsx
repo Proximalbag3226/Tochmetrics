@@ -11,14 +11,14 @@ const validateForm = (formData) => {
   }
 
   if (formData.usuario.length < 5 || formData.usuario.length > 25) {
-    errors.usuario = 'El usuario no debe de tener mas de 25 o menos de 5 caracteres.';
+    errors.usuario = 'El usuario no debe de tener más de 25 o menos de 5 caracteres.';
   }
 
-  if(formData.contraseña.length < 8 || formData.contraseña.length > 15) {
-    errors.contraseña = 'La contraseña debe tener mas de 8 caracteres y no mas de 15';
+  if (formData.contraseña.length < 8 || formData.contraseña.length > 15) {
+    errors.contraseña = 'La contraseña debe tener más de 8 caracteres y no más de 15';
   }
 
-  if (formData.apellidos.length < 5 || formData.apellidos.length > 35){
+  if (formData.apellidos.length < 5 || formData.apellidos.length > 35) {
     errors.apellidos = 'Los apellidos deben tener entre 5 y 35 caracteres';
   }
 
@@ -36,7 +36,7 @@ const RegisterEmployee = () => {
     nombre: '',
     apellidos: '',
     correo: '',
-    tipo: ''
+    tipo: 'head_referee' // Inicializar con la primera opción del select
   });
 
   const [errors, setErrors] = useState({});

@@ -6,7 +6,6 @@ import * as TbIcons from "react-icons/tb";
 import * as BsIcons from "react-icons/bs";
 import * as GiIcons from "react-icons/gi";
 import * as PiIcons from "react-icons/pi";
-import { IoIosExit } from "react-icons/io";
 
 
 export const SidebarData = [
@@ -58,11 +57,4 @@ export const SidebarData = [
         icon: <PiIcons.PiShieldCheckeredFill/>,
         cName: "nav-text"
     },
-    {
-        title: 'Cerrar Sesion',
-        path:"/",
-        icon: <IoIosExit/>,
-        cName: "nav-text"
-    }
-    
 ]

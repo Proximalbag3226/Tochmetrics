@@ -13,6 +13,8 @@ const fields = [
 ];
 
 function Reportes() {
+  const user = JSON.parse(localStorage.getItem('usuario'));
+  const isHeadReferee = user && user.tipo === 'head_referee';
   const [data, setData] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalVerMas, setModalVerMas] = useState(false);
@@ -68,9 +70,11 @@ function Reportes() {
       <Container>
         <h1>
           Reportes{" "}
+          {isHeadReferee && (
           <Button color="success" onClick={mostrarModalInsertar}>
             <BsIcons.BsPlusCircleFill />
           </Button>
+          )}
         </h1>
         <br />
         <br />

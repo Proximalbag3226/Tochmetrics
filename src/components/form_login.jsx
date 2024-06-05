@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Form, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
+
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
@@ -18,6 +20,7 @@ const LoginForm = () => {
             console.log(response.data);
             const usuario = response.data;
             localStorage.setItem('usuario', JSON.stringify(usuario));
+
             navigate('/')
         } catch (error) {
             if (error.response && error.response.status === 401) {
@@ -29,23 +32,35 @@ const LoginForm = () => {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <input
+        <Form>
+            <h2>Inicio de Sesion</h2>
+            <Row>
+                <Col md={6}>
+                    <FormGroup>
+            <Label>Usuraio</Label>
+            <Input
                 type="text"
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
             />
-            <input
+            </FormGroup>
+            </Col>
+            <Col md={6}>
+                <FormGroup>
+                    <Label>Contraseña:</Label>
+            <Input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={handleLogin}>Login</button>
+            </FormGroup>
+            </Col>
+            </Row>
+            <Button color="success" type="submit" onClick={handleLogin}>Login</Button>
             {error && <p>{error}</p>}
-        </div>
+        </Form>
     );
 };
 

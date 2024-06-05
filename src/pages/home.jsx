@@ -1,21 +1,23 @@
-import React from "react";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-function Home(){
-const [usuario, setUsuario] = useState('');
+function Home() {
+  const [usuario, setUsuario] = useState('');
 
   useEffect(() => {
     const storedUsuario = localStorage.getItem('usuario');
     if (storedUsuario) {
-      const usuarioObjeto = JSON.parse(storedUsuario);
-      setUsuario(usuarioObjeto.usuario);
+      const parsedUsuario = JSON.parse(storedUsuario);
+      if (parsedUsuario.usuario) {
+        setUsuario(parsedUsuario.usuario.usuario);
+      }
     }
   }, []);
-    return(
-        <>
-        <h1 className="Bienvenida">Bienvenido {usuario}</h1>
-        </>
-    );
+
+  return (
+    <>
+      <h1 className="Bienvenida">Bienvenido {usuario}</h1>
+    </>
+  );
 }
 
-export default Home
+export default Home;
