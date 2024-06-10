@@ -39,7 +39,7 @@ const graphicData = (item) => ({
 
 function Cards() {
   const user = JSON.parse(localStorage.getItem('usuario'));
-  const isHeadReferee = user && user.tipo === 'head_referee';
+  const isRegularReferee = user && user.tipo === 'regular_referee';
   const [data, setData] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalVerMas, setModalVerMas] = useState(false);
@@ -88,7 +88,7 @@ function Cards() {
 
   return (
     <Container>
-      {isHeadReferee && (
+      {isRegularReferee && (
       <Button color="success" onClick={mostrarModalInsertar}>Crear</Button>
       )}
       <div className='container d-flex justify-content-center h-100 align-items-center'>

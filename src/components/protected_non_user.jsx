@@ -1,14 +1,14 @@
-import { Navigate } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
+const NotAuthenticated = () => {
+    return (
+        <div>
+            <h2>Acceso Restringido</h2>
+            <p>Necesitas estar autenticado para acceder a esta página.</p>
+            <Link to="/login">Iniciar Sesión</Link> | <Link to="/register">Registrarse</Link>
+        </div>
+    );
+};
 
-const AuthRoute = ({ children }) => {
-    const usuario = JSON.parse(localStorage.getItem('usuario'));
-    console.log('AuthRoute Usuario:', usuario);
-  
-    if (usuario && usuario.tipo) {
-      return <Navigate to="/" replace />;
-    }
-  
-    return children;
-  };
-export default AuthRoute;
+export default NotAuthenticated;

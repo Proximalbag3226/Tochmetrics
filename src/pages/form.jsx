@@ -36,7 +36,7 @@ const RegisterEmployee = () => {
     nombre: '',
     apellidos: '',
     correo: '',
-    tipo: 'head_referee' // Inicializar con la primera opción del select
+    tipo: 'head_referee' 
   });
 
   const [errors, setErrors] = useState({});

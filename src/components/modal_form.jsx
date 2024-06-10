@@ -19,7 +19,7 @@ export const ModalshowComponent = ({ isOpen, title, graphData, onClose }) => {
 const ModalForm = ({ isOpen, title, fields, formData, onChange, onSave, onClose }) => {
   return (
     <Modal isOpen={isOpen}>
-      <ModalHeader>
+      <ModalHeader toggle={onClose}>
         <div><h3>{title}</h3></div>
       </ModalHeader>
 
@@ -44,6 +44,13 @@ const ModalForm = ({ isOpen, title, fields, formData, onChange, onSave, onClose 
                     </option>
                   ))}
                 </Input>
+              ) : field.type === 'file' ? (
+                <Input
+                  type={field.type}
+                  name={field.name}
+                  onChange={onChange}
+                  accept="image/*"
+                />
               ) : (
                 <Input
                   type={field.type}

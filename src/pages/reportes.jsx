@@ -59,7 +59,7 @@ function Reportes() {
       });
       setData([...data, response.data]);
       setModalInsertar(false);
-      setForm({ num_partido: "", lugar: "", fecha: "", equipos: "", descripcion: "" }); // Reset form after insertion
+      setForm({ num_partido: "", lugar: "", fecha: "", equipos: "", descripcion: "" });
     } catch (error) {
       console.error('Error insertando dato:', error);
     }
@@ -82,14 +82,12 @@ function Reportes() {
           {data.map((item, index) => (
             <AccordionItem key={index}>
               <AccordionHeader targetId={`${index + 1}`}>
-                {`Reporte ${index + 1}`}
+                {`Partido ${index + 1}`}
               </AccordionHeader>
               <AccordionBody accordionId={`${index + 1}`}>
                 <strong>{item.equipos}</strong>
+                <p>{item.fecha}</p>
                 <p>{item.descripcion}</p>
-                <Button color="info" onClick={() => mostrarModalVerMas(item)}>
-                  Ver más
-                </Button>
               </AccordionBody>
             </AccordionItem>
           ))}
