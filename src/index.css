@@ -159,11 +159,11 @@ width: 120%;
   background-color: #333;
   color: white;
   transition: transform 0.3s ease;
-  transform: translateX(-200px); /* Oculta la barra lateral por defecto */
+  transform: translateX(-200px);
 }
 
 .sidebar.open {
-  transform: translateX(0); /* Muestra la barra lateral cuando está abierta */
+  transform: translateX(0);
 }
 
 .content {

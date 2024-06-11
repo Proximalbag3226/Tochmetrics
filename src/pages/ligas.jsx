@@ -1,30 +1,34 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Button } from 'reactstrap';
 import axios from 'axios';
-import Card1 from '../components/card';
+import { Card2 } from '../components/card';
+import { ShowDescription } from '../components/card';
 import ModalForm from '../components/modal_form';
+import '../components/cards.css'
 
 const fields = [
-    { name: "nombre_liga", type: "text" },
-    { name: "fecha_creacion", type: "date" },
-    { name: "descripcion", type: "text" },
-    { name: "imagen", type: "file" }
+  { name: "nombre_liga", type: "text" },
+  { name: "fecha_creacion", type: "date" },
+  { name: "descripcion", type: "textarea" },
+  { name: "imagen", type: "file" },
+  {name: "documento", type: "file" }
 ];
 
 function Ligas() {
   const user = JSON.parse(localStorage.getItem('usuario'));
-  const isRegularReferee = user && user.tipo === 'regular_referee';
+  const isHeadReferee = user && user.tipo === 'head_referee';
   const [data, setData] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalVerMas, setModalVerMas] = useState(false);
-  const [form, setForm] = useState({ nombre_liga: "", fecha_creacion: "", descripcion: "", imagen: null });
+  const [form, setForm] = useState({ nombre_liga: "", fecha_creacion: "", descripcion: "", imagen: null, documento: null });
   const [currentData, setCurrentData] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/estadisticas/obtener_estadisticas'); 
+        const response = await axios.get('http://localhost:8000/ligas/obtener_ligas');
         setData(response.data);
       } catch (error) {
         console.error('Error fetching data: ', error);
@@ -58,31 +62,32 @@ function Ligas() {
     formData.append("fecha_creacion", form.fecha_creacion);
     formData.append("descripcion", form.descripcion);
     formData.append("imagen", form.imagen);
+    formData.append("documento", form.documento)
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/estadisticas/agregar_estadistica', formData, {
+      const response = await axios.post('http://localhost:8000/ligas/agregar_liga', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
       setData([...data, response.data]);
       setModalInsertar(false);
-      setForm({ nombre_liga: "", fecha_creacion: "", descripcion: "", imagen: null });
+      setForm({ nombre_liga: "", fecha_creacion: "", descripcion: "", imagen: null, documento: null});
     } catch (error) {
       console.error('Error inserting data: ', error);
     }
   };
 
   return (
-    <Container>
-      {isRegularReferee && (
-        <Button color="success" onClick={mostrarModalInsertar}>Crear</Button>
+    <Container className='conteiner'>
+      {isHeadReferee && (
+      <Button color="success" onClick={mostrarModalInsertar}>Crear</Button>
       )}
       <div className='container d-flex justify-content-center h-100 align-items-center'>
         <div className="row">
           {Array.isArray(data) && data.map((item, index) => (
             <div className="col-md-4" key={index}>
-              <Card1 data={item} click={() => mostrarModalVerMas(item)} />
+              <Card2 data={item} img={`http://127.0.0.1:8000/imagenes/${item.imagen}`} click={() => mostrarModalVerMas(item)} />
             </div>
           ))}
         </div>
@@ -95,6 +100,12 @@ function Ligas() {
         onChange={handleChange}
         onSave={insertar}
         onClose={cerrarModalInsertar}
+      />
+      <ShowDescription
+        isOpen={modalVerMas}
+        title={`Liga: ${currentData.nombre_liga}`}
+        data={currentData}
+        onClose={cerrarModalVerMas}
       />
     </Container>
   );

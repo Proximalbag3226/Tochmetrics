@@ -4,3 +4,13 @@
     margin: 2rem;
     margin-top: 3rem;
 }
+
+.modal-body-container {
+    max-height: 400px; 
+    overflow-y: auto;
+    word-wrap: break-word;
+}
+
+.conteiner{
+    margin-top: 2rem;
+}

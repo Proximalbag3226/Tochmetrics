@@ -28,7 +28,7 @@ function App() {
                   <Route path='/usuarios' element={isAuthenticated ? <Tables /> : <NotAuthenticated />} />
                   <Route path='/estadisticas' element={isAuthenticated ? <Estadisticas /> : <NotAuthenticated />} />
                   <Route path='/torneos' element={isAuthenticated ? <Torneos /> : <NotAuthenticated />} />
-                  <Route path='/ligas' element={isAuthenticated ? <ImageUploadForm/> : <NotAuthenticated />} />
+                  <Route path='/ligas' element={isAuthenticated ? <Ligas/> : <NotAuthenticated />} />
                   <Route path='/register' element={!isAuthenticated ? <Register /> : <Navigate to="/" />} />
                   <Route path='/login' element={!isAuthenticated ? <Login /> : <Navigate to="/" />} />
               </Routes>

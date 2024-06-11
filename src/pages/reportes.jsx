@@ -9,7 +9,7 @@ const fields = [
   { name: "lugar", type: "text" },
   { name: "fecha", type: "date" },
   { name: "equipos", type: "text" },
-  { name: "descripcion", type: "text" }
+  { name: "descripcion", type: "textarea" }
 ];
 
 function Reportes() {

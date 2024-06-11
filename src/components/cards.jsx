@@ -5,6 +5,8 @@ import axios from 'axios';
 import Card1 from './card';
 import ModalForm from './modal_form';
 import { ModalshowComponent } from './modal_form';
+import ola from '../Img/campo_americano2.jpg'
+
 
 const fields = [
   { name: "num_partido", type: "text", readOnly: true },
@@ -95,7 +97,7 @@ function Cards() {
         <div className="row">
           {Array.isArray(data) && data.map((item, index) => (
             <div className="col-md-4" key={index}>
-              <Card1 data={item} click={() => mostrarModalVerMas(item)} />
+              <Card1 data={item} img={ola} click={() => mostrarModalVerMas(item)} />
             </div>
           ))}
         </div>
