@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Button } from 'reactstrap';
+import { Container, Button, Alert } from 'reactstrap';
 import axios from 'axios';
 import { Card2 } from '../components/card';
 import { ShowDescription } from '../components/card';
@@ -80,16 +80,24 @@ function Ligas() {
 
   return (
     <Container className='conteiner'>
+      <h1>Ligas</h1>
+      <br/>
       {isHeadReferee && (
       <Button color="success" onClick={mostrarModalInsertar}>Crear</Button>
       )}
       <div className='container d-flex justify-content-center h-100 align-items-center'>
         <div className="row">
-          {Array.isArray(data) && data.map((item, index) => (
+          {Array.isArray(data) && data.length>0 ? (
+            data.map((item, index) => (
             <div className="col-md-4" key={index}>
               <Card2 data={item} img={`http://127.0.0.1:8000/imagenes/${item.imagen}`} click={() => mostrarModalVerMas(item)} />
             </div>
-          ))}
+          ))
+          ) : (
+            <Alert color="danger">
+            <p>Aun no hay ligas registradas</p>
+          </Alert>
+          )}
         </div>
       </div>
       <ModalForm

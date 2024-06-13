@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, UncontrolledAccordion, AccordionItem, AccordionHeader, AccordionBody, Button } from "reactstrap";
+import { Container, UncontrolledAccordion, AccordionItem, AccordionHeader, AccordionBody, Button, Alert } from "reactstrap";
 import * as BsIcons from "react-icons/bs";
 import axios from "axios";
 import ModalForm from "../components/modal_form";
@@ -78,20 +78,24 @@ function Reportes() {
         </h1>
         <br />
         <br />
-        <UncontrolledAccordion defaultOpen="1">
-          {data.map((item, index) => (
-            <AccordionItem key={index}>
-              <AccordionHeader targetId={`${index + 1}`}>
-                {`Partido ${index + 1}`}
-              </AccordionHeader>
-              <AccordionBody accordionId={`${index + 1}`}>
-                <strong>{item.equipos}</strong>
-                <p>{item.fecha}</p>
-                <p>{item.descripcion}</p>
-              </AccordionBody>
-            </AccordionItem>
-          ))}
-        </UncontrolledAccordion>
+        {data.length === 0 ? (
+          <Alert color="danger">No hay reportes disponibles</Alert>
+        ) : (
+          <UncontrolledAccordion defaultOpen="1">
+            {data.map((item, index) => (
+              <AccordionItem key={index}>
+                <AccordionHeader targetId={`${index + 1}`}>
+                  {`Partido ${index + 1}`}
+                </AccordionHeader>
+                <AccordionBody accordionId={`${index + 1}`}>
+                  <strong>{item.equipos}</strong>
+                  <p>{item.fecha}</p>
+                  <p>{item.descripcion}</p>
+                </AccordionBody>
+              </AccordionItem>
+            ))}
+          </UncontrolledAccordion>
+        )}
         <ModalForm
           isOpen={modalInsertar}
           title="Nuevo reporte"

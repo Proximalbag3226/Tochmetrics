@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
 .navbar{
     background-color: #060b26;
     height: 80px;
@@ -71,4 +73,12 @@
 
 span{
     margin-left: 16px;
+}
+
+.titulo{
+    margin-right: 44%;
+    color: azure;
+    font-family: "Permanent Marker", cursive;
+    font-weight: 400;
+    font-style: normal;
 }

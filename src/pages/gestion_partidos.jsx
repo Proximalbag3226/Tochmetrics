@@ -124,7 +124,7 @@ const Tables = () => {
 
       <ModalForm
         isOpen={modalInsertar}
-        title="Insertar nombre"
+        title="Crear partido"
         fields={fields}
         formData={{ ...form, id: data.length + 1 }}
         onChange={handleChange}

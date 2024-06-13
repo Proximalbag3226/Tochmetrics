@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Button } from 'reactstrap';
+import { Container, Button, Alert } from 'reactstrap';
 import axios from 'axios';
 import Card1 from './card';
 import ModalForm from './modal_form';
 import { ModalshowComponent } from './modal_form';
-import ola from '../Img/campo_americano2.jpg'
-
+import ola from '../Img/campo_americano2.jpg';
 
 const fields = [
   { name: "num_partido", type: "text", readOnly: true },
@@ -90,16 +89,23 @@ function Cards() {
 
   return (
     <Container>
+      <h1>Estadísticas</h1>
       {isRegularReferee && (
-      <Button color="success" onClick={mostrarModalInsertar}>Crear</Button>
+        <Button color="success" onClick={mostrarModalInsertar}>Crear</Button>
       )}
       <div className='container d-flex justify-content-center h-100 align-items-center'>
         <div className="row">
-          {Array.isArray(data) && data.map((item, index) => (
-            <div className="col-md-4" key={index}>
-              <Card1 data={item} img={ola} click={() => mostrarModalVerMas(item)} />
-            </div>
-          ))}
+          {Array.isArray(data) && data.length > 0 ? (
+            data.map((item, index) => (
+              <div className="col-md-4" key={index}>
+                <Card1 data={item} img={ola} click={() => mostrarModalVerMas(item)} />
+              </div>
+            ))
+          ) : (
+            <Alert color="danger">
+              <p>No hay estadísticas disponibles</p>
+            </Alert>
+          )}
         </div>
       </div>
       <ModalForm
@@ -113,7 +119,7 @@ function Cards() {
       />
       <ModalshowComponent
         isOpen={modalVerMas}
-        title={"Grafico primera mitad"}
+        title={"Gráfico primera mitad"}
         graphData={graphicData(currentData)}
         onClose={cerrarModalVerMas}
       />

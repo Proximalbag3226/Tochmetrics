@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
-import { Form, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
+import { Form, Row, Col, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap';
+import '../components/form.css'
 
 const validateForm = (formData) => {
   const errors = {};
@@ -11,7 +12,7 @@ const validateForm = (formData) => {
   }
 
   if (formData.usuario.length < 5 || formData.usuario.length > 25) {
-    errors.usuario = 'El usuario no debe de tener más de 25 o menos de 5 caracteres.';
+    errors.usuario = 'El usuario no debe tener más de 25 o menos de 5 caracteres.';
   }
 
   if (formData.contraseña.length < 8 || formData.contraseña.length > 15) {
@@ -36,13 +37,13 @@ const RegisterEmployee = () => {
     nombre: '',
     apellidos: '',
     correo: '',
-    tipo: 'head_referee' 
+    tipo: 'head_referee'
   });
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,11 +73,11 @@ const RegisterEmployee = () => {
         }
       });
       console.log(response.data);
-      const usuario = response.data; 
+      const usuario = response.data;
       setMessage('Usuario registrado con éxito');
-      
+
       localStorage.setItem('usuario', JSON.stringify(usuario));
-      
+
       navigate('/');
     } catch (error) {
       console.error('Error registrando usuario:', error);
@@ -88,7 +89,9 @@ const RegisterEmployee = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} className='login'>
+      <h1>Registro de usuarios</h1>
+      <br />
       <Row>
         <Col md={6}>
           <FormGroup>
@@ -99,11 +102,12 @@ const RegisterEmployee = () => {
               name="usuario"
               value={formData.usuario}
               onChange={handleChange}
-              min={5}
-              max={25}
+              minLength={5}
+              maxLength={25}
               required
+              invalid={!!errors.usuario}
             />
-            {errors.usuario && <p>{errors.usuario}</p>}
+            {errors.usuario && <FormFeedback>{errors.usuario}</FormFeedback>}
           </FormGroup>
         </Col>
         <Col md={6}>
@@ -114,11 +118,12 @@ const RegisterEmployee = () => {
               name="contraseña"
               value={formData.contraseña}
               onChange={handleChange}
-              min={8}
-              max={15}
+              minLength={8}
+              maxLength={15}
               required
+              invalid={!!errors.contraseña}
             />
-            {errors.contraseña && <p>{errors.contraseña}</p>}
+            {errors.contraseña && <FormFeedback>{errors.contraseña}</FormFeedback>}
           </FormGroup>
         </Col>
       </Row>
@@ -135,8 +140,9 @@ const RegisterEmployee = () => {
               minLength={5}
               maxLength={25}
               required
+              invalid={!!errors.nombre}
             />
-            {errors.nombre && <p>{errors.nombre}</p>}
+            {errors.nombre && <FormFeedback>{errors.nombre}</FormFeedback>}
           </FormGroup>
         </Col>
         <Col md={6}>
@@ -148,11 +154,12 @@ const RegisterEmployee = () => {
               name="apellidos"
               value={formData.apellidos}
               onChange={handleChange}
-              min={5}
-              max={35}
+              minLength={5}
+              maxLength={35}
               required
+              invalid={!!errors.apellidos}
             />
-            {errors.apellidos && <p>{errors.apellidos}</p>}
+            {errors.apellidos && <FormFeedback>{errors.apellidos}</FormFeedback>}
           </FormGroup>
         </Col>
       </Row>
@@ -167,8 +174,9 @@ const RegisterEmployee = () => {
               value={formData.correo}
               onChange={handleChange}
               required
+              invalid={!!errors.correo}
             />
-            {errors.correo && <p>{errors.correo}</p>}
+            {errors.correo && <FormFeedback>{errors.correo}</FormFeedback>}
           </FormGroup>
         </Col>
       </Row>
