@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Button, ListGroup, ListGroupItem } from 'reactstrap';
+import { Container, Button, ListGroup, ListGroupItem, Alert } from 'reactstrap';
 import '../components/cards.css'
-
 
 const Reglas = () => {
   const [ligas, setLigas] = useState([]);
@@ -32,16 +31,20 @@ const Reglas = () => {
     <Container className='conteiner'>
       <h1 className='titulo'>Reglas de las Ligas</h1>
       <br/>
-      <ListGroup>
-        {ligas.map((liga, index) => (
-          <ListGroupItem key={index} className="d-flex justify-content-between align-items-center">
-            {liga.nombre_liga}
-            <Button color="primary" onClick={() => handleDownload(liga.documento)}>
-              Descargar
-            </Button>
-          </ListGroupItem>
-        ))}
-      </ListGroup>
+      {ligas.length === 0 ? (
+        <Alert color="danger">No se encuentran reglamentos disponibles</Alert>
+      ) : (
+        <ListGroup>
+          {ligas.map((liga, index) => (
+            <ListGroupItem key={index} className="d-flex justify-content-between align-items-center">
+              {liga.nombre_liga}
+              <Button color="primary" onClick={() => handleDownload(liga.documento)}>
+                Descargar
+              </Button>
+            </ListGroupItem>
+          ))}
+        </ListGroup>
+      )}
     </Container>
   );
 };
