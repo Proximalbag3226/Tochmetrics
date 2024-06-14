@@ -13,6 +13,7 @@ import Login from './pages/login';
 import NotAuthenticated from './components/protected_non_user';
 import Ligas from './pages/ligas';
 import ImageUploadForm from './pages/img';
+import Reglas from './pages/reglas';
 
 function App() {
   const isAuthenticated = !!localStorage.getItem('usuario');
@@ -31,6 +32,7 @@ function App() {
                   <Route path='/ligas' element={isAuthenticated ? <Ligas/> : <NotAuthenticated />} />
                   <Route path='/register' element={!isAuthenticated ? <Register /> : <Navigate to="/" />} />
                   <Route path='/login' element={!isAuthenticated ? <Login /> : <Navigate to="/" />} />
+                  <Route path='/reglas' element={isAuthenticated ? <Reglas/> : <NotAuthenticated/>} />
               </Routes>
           </BrowserRouter>
       </>

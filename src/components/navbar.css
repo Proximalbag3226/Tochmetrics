@@ -75,10 +75,18 @@ span{
     margin-left: 16px;
 }
 
-.titulo{
+.titulo1{
     margin-right: 44%;
     color: azure;
     font-family: "Permanent Marker", cursive;
     font-weight: 400;
     font-style: normal;
+}
+
+.logo{
+    z-index: 1;
+    width: 65px;
+    height: 65px;
+    border-radius: 11px;
+    margin-right: -15%;
 }

@@ -5,6 +5,8 @@ import { Container, Button } from 'reactstrap';
 import DataTable from '../components/date_table';
 import ModalForm from '../components/modal_form';
 import validateForm from '../functions/validator';
+import '../components/cards.css'
+
 
 const fields = [
   { name: 'id', type: 'text', readOnly: true },
@@ -17,7 +19,7 @@ const fields = [
   { name: 'ev', type: 'text', minLength: 5, maxLength: 25, required: true },
   { name: 'fecha', type: 'date', required: true },
   { name: 'arbitro', type: 'text', minLength: 5, maxLength: 25, required: true },
-  { name: 'hora', type: 'time', required: true }
+  { name: 'hora', type: 'time', required: true },
 ];
 
 const Tables = () => {
@@ -104,7 +106,8 @@ const Tables = () => {
   };
 
   return (
-    <Container>
+    <Container className='conteiner'>
+      <h1 className='titulo'>Gestion de partidos</h1>
       <br />
       {isHeadReferee && (
       <Button color="success" onClick={mostrarModalInsertar}>Crear</Button>

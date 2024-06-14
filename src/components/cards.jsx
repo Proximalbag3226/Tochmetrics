@@ -88,8 +88,8 @@ function Cards() {
   };
 
   return (
-    <Container>
-      <h1>Estadísticas</h1>
+    <Container className='container'>
+      <h1 className='titulo'>Estadísticas</h1>
       {isRegularReferee && (
         <Button color="success" onClick={mostrarModalInsertar}>Crear</Button>
       )}

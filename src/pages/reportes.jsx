@@ -68,7 +68,7 @@ function Reportes() {
   return (
     <div className="noc">
       <Container>
-        <h1>
+        <h1 className="titulo">
           Reportes{" "}
           {isHeadReferee && (
           <Button color="success" onClick={mostrarModalInsertar}>

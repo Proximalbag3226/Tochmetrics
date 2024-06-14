@@ -60,7 +60,7 @@ export const ShowDescription = ({ isOpen, title, data, onClose }) => {
       <ModalFooter>
         <Button color="secondary" onClick={onClose}>Cerrar</Button>
         {data.documento && (
-          <Button color="primary" onClick={handleDownloadDocument}>Descargar Documento</Button>
+          <Button color="primary" onClick={handleDownloadDocument}>Descargar reglamento</Button>
         )}
       </ModalFooter>
     </Modal>

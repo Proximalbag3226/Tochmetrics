@@ -80,7 +80,7 @@ function Ligas() {
 
   return (
     <Container className='conteiner'>
-      <h1>Ligas</h1>
+      <h1 className='titulo'>Ligas</h1>
       <br/>
       {isHeadReferee && (
       <Button color="success" onClick={mostrarModalInsertar}>Crear</Button>

@@ -3,6 +3,8 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'reactstrap';
 import DataTable from './date_table';
+import './cards.css'
+
 
 const fields = [
   { name: 'id', type: 'text', readOnly: true },
@@ -41,7 +43,8 @@ const Tables = () => {
   }, []);
 
   return (
-    <Container>
+    <Container className='conteiner'>
+      <h1 className='titulo'>Usuarios</h1>
       <br />
       <DataTable data={data} fields={fields.map((field) => field.name)} />
     </Container>

@@ -7,6 +7,7 @@ import './navbar.css'
 import { IconContext } from 'react-icons/lib';
 import { Button } from 'reactstrap';
 import { IoIosExit } from "react-icons/io";
+import logo from '../Img/logo_roy2.jpg'
 
 function Navbar() {
     const [sidebar, setSidebar] = useState(false)
@@ -25,7 +26,8 @@ function Navbar() {
             <Link to="#" className='menu-bars'>
                 <FaIcons.FaBars onClick={showSidebar}/>
             </Link>
-            <h1 className='titulo'>Tochmetrics</h1>
+            <img alt='Sample' src={logo} className='logo'/>
+            <h1 className='titulo1'>Tochmetrics</h1>
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
             <ul className='nav-menu-items' onClick={showSidebar}>
